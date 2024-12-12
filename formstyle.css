@@ -26,15 +26,82 @@ body{
     content: "";
     width: 100%;
     height: 100%;
-    background: linear-gradient(-45deg, #30b2cc,##163d9f);
+    background: linear-gradient(-45deg, #30b2cc,#163d9f);
     z-index: 6;
     left: -50%;
     transform:translateX(100%) ;
     transition: 1s ease-in-out;
 
 }
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 130px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.forgot-password {
+    text-align: right;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #163d9f;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0; 
+    margin-top: 30px;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: ' '; 
+    flex: 1;
+    height: 1px;
+    width: 70px;
+    margin: 0 10px; 
+    background: #163d9f;
+    border: 1px #163d9f solid;
+}
+
+.divider span {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #666; 
+    white-space: nowrap; 
+}
+
+.icon-image {
+    width: 20px; 
+    height: 20px;
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
 
 
+.social-icon {
+    width: 30px; 
+    height: 30px;
+    margin: 0 10px; 
+}
+.icon img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
 .login-signup{
     position: absolute;
     top: 0;
@@ -97,7 +164,7 @@ form{
     margin: 15px;
 }
 .field:focus-within {
-    outline: 3px solid #df4adf; 
+    outline: 3px solid #5e66d7; 
   }
 
 
@@ -117,9 +184,9 @@ form{
     width: 150px;
     height: 50px;
     border-color: transparent;
-    background-color:#163d9f;
+    background-color:#f7f7f7;
     font-family: "Lora";
-    color: white;
+    color: #163d9f;
     font-weight: 600;
     margin: 10px 0;
     cursor: pointer;
@@ -137,6 +204,8 @@ form{
     transform: scale(1.1);
     transition: transform 0.3s ease-in-out;
 }
+
+
 .panels-container{
     position: absolute;
     top: 0;
