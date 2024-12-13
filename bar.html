@@ -2,123 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>DamWatch | Tunisian Dams Management</title>
+    <title>Dam Locations</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
-    <nav class="sidebar">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="logo.png" alt="logo">
-                </span>
-                <div class="text header-text">
-                    <span class="name">DamWatch</span>
-                    <span class="profession">Management</span>
-                </div>
-            </div>
-        </header>
-        <div class="menu-bar">
-            <li class="search-box">
-                <i class='bx bx-search icon'></i>
-                <input type="search" id="search" placeholder="Search...">
-            </li>
-            <div class="filter-section">
-                <h3>Filters</h3>
-                <div class="filter">
-                    <label for="water-quality">Water Quality</label>
-                    <select id="water-quality">
-                        <option value="">All</option>
-                        <option value="good">Good</option>
-                        <option value="moderate">Moderate</option>
-                        <option value="poor">Poor</option>
-                    </select>
-                </div>
-                <div class="filter">
-                    <label for="city">Select City:</label>
-                    <select id="city" class="custom-select">
-                        <option value="Tunis">Tunis</option>
-                        <option value="Sfax">Sfax</option>
-                        <option value="Sousse">Sousse</option>
-                        <option value="Kairouan">Kairouan</option>
-                        <option value="Gabes">Gabes</option>
-                        <option value="Nabeul">Nabeul</option>
-                        <option value="Tozeur">Tozeur</option>
-                        <option value="Bizerte">Bizerte</option>
-                        <option value="Kef">Kef</option>
-                        <option value="Gafsa">Gafsa</option>
-                    </select>
-                </div>
-                
-                
-                
-                <div class="filter">
-                    <label for="water-level">Water Levels</label>
-                    <select id="water-level">
-                        <option value="">All</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
-                </div>
-                <div class="filter">
-                    <label for="construction-year">Construction Year</label>
-                    <input type="number" id="construction-year" placeholder="Enter year...">
-                </div>
-                <div class="filter">
-                    <label for="capacity">Capacity (in million m³):</label>
-                    <input type="range" id="capacity" min="0" max="500" step="10" value="250" oninput="updateCapacityValue(this.value)">
-                    <span id="capacity-value">250</span>
-                </div>
-                
-                <div class="filter">
-                    <label for="status">Operational Status</label>
-                    <select id="status">
-                        <option value="">All</option>
-                        <option value="operational">Operational</option>
-                        <option value="maintenance">Under Maintenance</option>
-                    </select>
-                </div>
-            </div>
-            <button id="filter-button" >Apply Filter</button>
 
-    </nav>
-    <script>
-        function updateCapacityValue(value) {
-            document.getElementById('capacity-value').innerText = value;
-        }
+<form id="filterForm">
+    <label for="waterquality">Water Quality:</label>
+    <select id="waterquality" name="waterquality">
+        <option value="default">Select</option>
+        <option value="Good">Good</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Poor">Poor</option>
+    </select>
 
-        document.getElementById('filter-button').addEventListener('click', () => {
-            const searchQuery = document.getElementById('search').value.toLowerCase();
-            const waterQuality = document.getElementById('water-quality').value;
-            const location = document.getElementById('location').value;
-            const waterLevel = document.getElementById('water-level').value;
-            const damType = document.getElementById('dam-type').value;
-            const constructionYear = document.getElementById('construction-year').value;
-            const capacity = document.getElementById('capacity-range').value;
-            const status = document.getElementById('status').value;
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city"/>
 
-            console.log("Filters applied:");
-            console.log("Search Query:", searchQuery);
-            console.log("Water Quality:", waterQuality);
-            console.log("Location:", location);
-            console.log("Water Level:", waterLevel);
-            console.log("Dam Type:", damType);
-            console.log("Construction Year:", constructionYear);
-            console.log("Capacity:", capacity);
-            console.log("Status:", status);
+    <label for="waterLevel">Water Level:</label>
+    <select id="waterLevel" name="waterLevel">
+        <option value="default">Select</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+    </select>
 
-            alert(`Filters Applied:\nSearch: ${searchQuery}\nQuality: ${waterQuality}\nLocation: ${location}\nWater Level: ${waterLevel}\nDam Type: ${damType}\nYear: ${constructionYear}\nCapacity: ${capacity} m³\nStatus: ${status}`);
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity" name="capacity"/>
+
+    <label for="operationalStatus">Operational Status:</label>
+    <select id="operationalStatus" name="operationalStatus">
+        <option value="default">Select</option>
+        <option value="Operational">Operational</option>
+        <option value="Under Maintenance">Under Maintenance</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+    <button type="button" id="resetBtn">Reset Filters</button> <!-- Reset button -->
+</form>
+
+<!-- Map -->
+<div id="map" style="height: 600px;"></div>
+
+<script>
+// Initialize the map
+var map = L.map('map').setView([36.8171, 9.1833], 7); // Default to Tunisia
+
+// Set up the tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Function to fetch and plot dam locations
+function fetchAndPlotData(filters) {
+    fetch('fetch_dams.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(filters)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Clear existing markers
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker) {
+                map.removeLayer(layer);
+            }
         });
-        const waterLevelSlider = document.getElementById("water-level");
-const waterLevelValue = document.getElementById("water-level-value");
 
-waterLevelSlider.addEventListener("input", function() {
-    waterLevelValue.textContent = waterLevelSlider.value + " m";
+        // Plot the dam locations
+        data.forEach(function(dam) {
+            var lat = parseFloat(dam.Latitude);
+            var lng = parseFloat(dam.Longitude);
+            var marker = L.marker([lat, lng]).addTo(map);
+            marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+        });
+    })
+    .catch(error => console.error('Error fetching dam data:', error));
+}
+
+// Function to get filter values and exclude default ones
+function getFilters() {
+    var filters = {};
+
+    // Check each filter and only add it if the value is not default
+    var waterquality = document.getElementById('waterquality').value;
+    if (waterquality !== 'default') filters.waterquality = waterquality;
+
+    var city = document.getElementById('city').value;
+    if (city) filters.city = city;
+
+    var waterLevel = document.getElementById('waterLevel').value;
+    if (waterLevel !== 'default') filters.waterLevel = waterLevel;
+
+    var capacity = document.getElementById('capacity').value;
+    if (capacity) filters.capacity = capacity;
+
+    var operationalStatus = document.getElementById('operationalStatus').value;
+    if (operationalStatus !== 'default') filters.operationalStatus = operationalStatus;
+
+    return filters;
+}
+
+// Fetch data when filters are applied
+document.getElementById('filterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var filters = getFilters();
+    fetchAndPlotData(filters);
 });
+
+// Reset filters when reset button is clicked
+document.getElementById('resetBtn').addEventListener('click', function() {
+    // Reset form fields
+    document.getElementById('filterForm').reset();
+    
+    // Fetch all data without filters
+    fetchAndPlotData({});
+});
+
+// Load initial data (optional)
+fetchAndPlotData({});
+</script>
+
+</body>
+</html>
 
     </script>
 </body>
