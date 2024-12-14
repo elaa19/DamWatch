@@ -5,10 +5,10 @@ ini_set('display_errors', 1);
 
 // Connection details
 $host = "localhost";
-$port = "5432"; // Default PostgreSQL port
-$dbname = "DamWatch"; // Your database name
-$user = "postgres"; // Your PostgreSQL username
-$password = "nadagouja"; // Your password
+$port = "5432"; 
+$dbname = "DamWatch";
+$user = "postgres"; 
+$password = "nadagouja"; 
 
 // Establish the connection
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
@@ -26,7 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POS
 
     // Check if password length exceeds 20 characters
     if (strlen($password) > 20) {
-        echo "Password cannot exceed 20 characters.";
+        echo "<script>
+                alert('Password cannot exceed 20 characters.');
+                window.location.href = 'users-form.html'; // Redirect to users-form.html after alert
+              </script>";
     } else {
         // Check if the email already exists
         $check_query = "SELECT * FROM Registration WHERE email = '$email'";
@@ -34,23 +37,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POS
 
         if (pg_num_rows($check_result) > 0) {
             // Email already exists, show an error message
-            echo "<script>alert('This email is already registered. Please use a different email.');</script>";
+            echo "<script>
+                    alert('This email is already registered. Please use a different email.');
+                    window.location.href = 'users-form.html'; // Redirect to users-form.html after alert
+                  </script>";
         } else {
-            // SQL query to insert data (storing password as plain text)
+            
             $query = "INSERT INTO Registration (name, email, password) VALUES ('$name', '$email', '$password')";
 
             // Execute the query
             $result = pg_query($conn, $query);
 
             if ($result) {
-                echo "Registration successful!";
+                // Show success message and redirect
+                echo "<script>
+                        alert('Registration successful!');
+                        window.location.href = 'users-form.html'; // Redirect to users-form.html after success
+                      </script>";
             } else {
-                echo "Error: " . pg_last_error($conn);
+                // Show error message and redirect back
+                echo "<script>
+                        alert('Error: " . pg_last_error($conn) . "');
+                        window.location.href = 'users-form.html'; // Redirect to users-form.html after error
+                      </script>";
             }
         }
     }
 }
-
 
 // Handle login (GET request)
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['email']) && isset($_GET['password'])) {
@@ -73,15 +86,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['email']) && isset($_GET[
             exit();
         } else {
             // Error message if password does not match
-            echo "<script>alert('Incorrect password! Please try again.');</script>";
+            echo "<script>
+                    alert('Incorrect password! Please try again.');
+                    window.location.href = 'users-form.html'; // Redirect to users-form.html after alert
+                  </script>";
         }
     } else {
         // Error message if email is not found
-        echo "<script>alert('Email not registered or invalid. Please check and try again.');</script>";
+        echo "<script>
+                alert('Email not registered or invalid. Please check and try again.');
+                window.location.href = 'users-form.html'; // Redirect to users-form.html after alert
+              </script>";
     }
 }
 
 // Close the connection
 pg_close($conn);
 ?>
-
