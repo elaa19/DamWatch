@@ -93,7 +93,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
             if (asMarkers) {
                
                 var marker = L.marker([lat, lng]).addTo(map);
-                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterLevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
             } else {
                 
                 var point = L.circleMarker([lat, lng], {
@@ -102,7 +102,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
                     fillColor: 'blue',
                     fillOpacity: 0.8
                 }).addTo(map);
-                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterLevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
             }
         });
     })
