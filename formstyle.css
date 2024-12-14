@@ -4,20 +4,28 @@
     box-sizing: border-box;
     font-family: 'Courier New', 'Lora', monospace;
 }
-body{
+body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #444;
+    background-color:#3a3f58;
     min-height: 100vh;
+    margin: 0; 
+    
 }
-.container{
+
+.container {
     position: relative;
     width: 70vw;
     height: 80vh;
-    background-color:white;
+    background: white; 
     border-radius: 15px;
     overflow: hidden;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); 
+    
+}
+.container h2{
+    color: #163d9f;
 }
 
 .container::before{
@@ -120,6 +128,12 @@ form{
     flex-direction: column;
     padding: 0 10px;
     width:40% ;
+}
+form p{
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #666; 
+    white-space: nowrap;
 }
 
 .content h3{
