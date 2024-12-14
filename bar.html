@@ -5,130 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dam Locations</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="style.css"> 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
 </head>
 <body>
-    <div class="sidebar">
-        <header>
-            <div class="image-text">
-                <div class="image">
-                    <img src="logo.png" alt="Logo"> 
-                </div>
-                <div class="header-text">
-                    <span class="name">Dam Management</span>
-                    <span class="profession">Monitoring & Analysis</span>
-                </div>
-            </div>
-        </header>
 
-        <div class="filter-section">
-            <h3>Filters</h3>
-            <form id="filterForm">
-                <div class="filter">
-                    <label for="city">City:</label>
-                    <select id="city" name="city">
-                        <option value="default">Select</option>
-                        <option value="Bizerte">Bizerte</option>
-                        <option value="Kef">Kef</option>
-                        <option value="Beja">Beja</option>
-                    </select>
-                </div>
+<form id="filterForm">
+    <label for="waterquality">Water Quality:</label>
+    <select id="waterquality" name="waterquality">
+        <option value="default">Select</option>
+        <option value="Good">Good</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Poor">Poor</option>
+    </select>
 
-                <div class="filter">
-                    <label for="waterquality">Water Quality:</label>
-                    <select id="waterquality" name="waterquality">
-                        <option value="default">Select</option>
-                        <option value="Good">Good</option>
-                        <option value="Moderate">Moderate</option>
-                        <option value="Poor">Poor</option>
-                    </select>
-                </div>
+    <label for="city">City:</label>
+    <select id="city" name="city">
+        <option value="default">Select</option>
+        <option value="Bizerte">Bizerte</option>
+        <option value="Ben Arous">Ben Arous</option>
+        <option value="Nabeul">Nabeul</option>
+        <option value="Zaghouan">Zaghouan</option>
+        <option value="Kef">Kef</option>
+        <option value="Kef">Siliana</option>
+        <option value="Beja">Beja</option>
+        <option value="Jendouba">Jendouba</option>
+        <option value="Kasserine">Kasserine</option>
+        <option value="Kairouan">Kairouan</option>
+        <option value="Gafsa">Gafsa</option>
+    </select>
 
+    <label for="waterlevel">Water Level:</label>
+    <select id="waterlevel" name="waterlevel">
+        <option value="default">Select</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+    </select>
+
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity" name="capacity"/>
+
+    <label for="operationalStatus">Operational Status:</label>
+    <select id="operationalStatus" name="operationalStatus">
+        <option value="default">Select</option>
+        <option value="Operational">Operational</option>
+        <option value="Under Maintenance">Under Maintenance</option>
+    </select>
+
+    <button type="submit">Apply Filters</button>
+    <button type="button" id="resetBtn">Reset Filters</button> 
+</form>
+
+
+<div id="map" style="height: 600px;"></div>
+
+<script>
+// Initialize the map
+var map = L.map('map').setView([36.8171, 9.1833], 7); // Default to Tunisia
+
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+function fetchAndPlotData(filters, asMarkers = false) {
+    fetch('fetch_dams.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(filters)
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
+                map.removeLayer(layer);
+            }
+        });
+
+        
+        data.forEach(function(dam) {
+            var lat = parseFloat(dam.Latitude);
+            var lng = parseFloat(dam.Longitude);
+            if (asMarkers) {
                
-                <div class="filter">
-                    <label for="waterLevel">Water Level:</label>
-                    <select id="waterLevel" name="waterLevel">
-                        <option value="default">Select</option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
-                    </select>
-                </div>
+                var marker = L.marker([lat, lng]).addTo(map);
+                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+            } else {
+                
+                var point = L.circleMarker([lat, lng], {
+                    radius: 5, 
+                    color: 'blue', 
+                    fillColor: 'blue',
+                    fillOpacity: 0.8
+                }).addTo(map);
+                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+            }
+        });
+    })
+    .catch(error => console.error('Error fetching dam data:', error));
+}
 
-                <div class="filter">
-                    <label for="capacity">Capacity (m³):</label>
-                    <input type="number" id="capacity" name="capacity">
-                </div>
 
-                <div class="filter">
-                    <label for="operationalStatus">Operational Status:</label>
-                    <select id="operationalStatus" name="operationalStatus">
-                        <option value="default">Select</option>
-                        <option value="Operational">Operational</option>
-                        <option value="Under Maintenance">Under Maintenance</option>
-                    </select>
-                </div>
+function getFilters() {
+    var filters = {};
 
-                <button id="filter-button" type="submit">Apply Filters</button>
-                <button id="resetBtn" type="button">Reset Filters</button>
-            </form>
-        </div>
-    </div>
+    var waterquality = document.getElementById('waterquality').value;
+    if (waterquality !== 'default') filters.waterquality = waterquality;
 
-    <div id="map" style="margin-left: 300px; height: 100vh;"></div>
+    var city = document.getElementById('city').value;
+    if (city !== 'default') filters.city = city;
 
-    <script>
-        // JavaScript for initializing the map and applying filters
-        var map = L.map('map').setView([36.8171, 9.1833], 7);
+    var waterlevel = document.getElementById('waterlevel').value;
+    if (waterlevel !== 'default') filters.waterlevel = waterlevel;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    var capacity = document.getElementById('capacity').value;
+    if (capacity) filters.capacity = capacity;
+
+    var operationalStatus = document.getElementById('operationalStatus').value;
+    if (operationalStatus !== 'default') filters.operationalStatus = operationalStatus;
+
+    return filters;
+}
+
+
+document.getElementById('filterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var filters = getFilters();
+    fetchAndPlotData(filters, true); 
+});
+
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+    
+    document.getElementById('filterForm').reset();
+
+   
+    fetchAndPlotData({}, false);
+});
+
+
+fetchAndPlotData({}, false);
+
+fetch('./monastir.geojson') 
+    .then((response) => response.json())
+    .then((data) => {
+       
+        L.geoJSON(data, {
+            style: function () {
+                return {
+                    color: "transparent" ,
+                    fillOpacity: 0.1 
+                };
+            },
+            onEachFeature: function (feature, layer) {
+                layer.on('click', function () {
+                   
+                    map.eachLayer((layer) => {
+                        if (layer instanceof L.GeoJSON) {
+                            layer.setStyle({
+                                color: "transparent",
+                                fillOpacity: 0.1
+                            });
+                        }
+                    });
+
+                    
+                    layer.setStyle({
+                        color: "red", 
+                        fillOpacity: 0.5 
+                    });
+
+                    
+                    map.fitBounds(layer.getBounds());
+                });
+            }
         }).addTo(map);
+    })
+    .catch((error) => console.error('Error loading GeoJSON data:', error));
 
-        function fetchAndPlotData(filters) {
-            fetch('fetch_dams.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(filters)
-            })
-            .then(response => response.json())
-            .then(data => {
-                map.eachLayer(layer => {
-                    if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
-                        map.removeLayer(layer);
-                    }
-                });
 
-                data.forEach(dam => {
-                    var lat = parseFloat(dam.Latitude);
-                    var lng = parseFloat(dam.Longitude);
-                    var marker = L.marker([lat, lng]).addTo(map);
-                    marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
-                });
-            })
-            .catch(error => console.error('Error fetching dam data:', error));
-        }
+fetchAndPlotData({});
+</script>
 
-        document.getElementById('filterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var filters = {
-                waterquality: document.getElementById('waterquality').value,
-                city: document.getElementById('city').value,
-                waterLevel: document.getElementById('waterLevel').value,
-                capacity: document.getElementById('capacity').value,
-                operationalStatus: document.getElementById('operationalStatus').value,
-            };
-            fetchAndPlotData(filters);
-        });
-
-        document.getElementById('resetBtn').addEventListener('click', function() {
-            document.getElementById('filterForm').reset();
-            fetchAndPlotData({});
-        });
-
-        fetchAndPlotData({});
-    </script>
 </body>
 </html>
