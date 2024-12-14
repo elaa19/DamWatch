@@ -105,12 +105,11 @@ function fetchAndPlotData(filters, asMarkers = false) {
 function getFilters() {
     var filters = {};
 
-    
     var waterquality = document.getElementById('waterquality').value;
     if (waterquality !== 'default') filters.waterquality = waterquality;
 
     var city = document.getElementById('city').value;
-    if (city) filters.city = city;
+    if (city !== 'default') filters.city = city;
 
     var waterLevel = document.getElementById('waterLevel').value;
     if (waterLevel !== 'default') filters.waterLevel = waterLevel;
