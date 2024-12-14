@@ -4,20 +4,28 @@
     box-sizing: border-box;
     font-family: 'Courier New', 'Lora', monospace;
 }
-body{
+body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #444;
+    background-color:#20214B;
     min-height: 100vh;
+    margin: 0; 
+    
 }
-.container{
+
+.container {
     position: relative;
     width: 70vw;
     height: 80vh;
-    background-color:white;
+    background: white; 
     border-radius: 15px;
     overflow: hidden;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); 
+    
+}
+.container h2{
+    color: #20214B;
 }
 
 .container::before{
@@ -26,7 +34,7 @@ body{
     content: "";
     width: 100%;
     height: 100%;
-    background: linear-gradient(-45deg, #df4adf,#6591d3);
+    background: linear-gradient(-45deg, #7885B9,#20214B);
     z-index: 6;
     left: -50%;
     transform:translateX(100%) ;
@@ -34,7 +42,75 @@ body{
 
 }
 
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 130px;
+}
 
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.forgot-password {
+    text-align: right;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #20214B;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0; 
+    margin-top: 30px;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: ' '; 
+    flex: 1;
+    height: 1px;
+    width: 70px;
+    margin: 0 10px; 
+    background: #20214B;
+    border: 1px #20214B solid;
+}
+
+.divider span {
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #666; 
+    white-space: nowrap; 
+}
+
+.icon-image {
+    width: 20px; 
+    height: 20px;
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
+
+
+.social-icon {
+    width: 30px; 
+    height: 30px;
+    margin: 0 10px; 
+}
+.icon img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
 .login-signup{
     position: absolute;
     top: 0;
@@ -53,6 +129,12 @@ form{
     flex-direction: column;
     padding: 0 10px;
     width:40% ;
+}
+form p{
+    font-family: 'Lora', serif;
+    font-size: 14px;
+    color: #666; 
+    white-space: nowrap;
 }
 
 .content h3{
@@ -97,7 +179,7 @@ form{
     margin: 15px;
 }
 .field:focus-within {
-    outline: 3px solid #df4adf; 
+    outline: 3px solid #5e66d7; 
   }
 
 
@@ -105,7 +187,7 @@ form{
     width: 150px;
     height: 50px;
     border-color: white;
-    background-color:#6591d3;
+    background-color:#20214B;
     font-family: "Lora";
     color: white;
     font-weight: 600;
@@ -117,9 +199,9 @@ form{
     width: 150px;
     height: 50px;
     border-color: transparent;
-    background-color:#520852;
+    background-color:#f7f7f7;
     font-family: "Lora";
-    color: white;
+    color: #163d9f;
     font-weight: 600;
     margin: 10px 0;
     cursor: pointer;
@@ -128,12 +210,17 @@ form{
 #sign-up-btn2 ,#login-btn2{
     width: 400px;
 }
-.btn:hover{
-background: #520852;
+.btn:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
 }
-.btn2:hover{
-    background: #520852;
-    }
+
+.btn2:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+
 .panels-container{
     position: absolute;
     top: 0;
