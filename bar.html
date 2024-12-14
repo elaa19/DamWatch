@@ -19,7 +19,12 @@
     </select>
 
     <label for="city">City:</label>
-    <input type="text" id="city" name="city"/>
+    <select id="city" name="city">
+        <option value="default">Select</option>
+        <option value="Bizerte">Bizerte</option>
+        <option value="Kef">Kef</option>
+        <option value="Beja">Beja</option>
+    </select>
 
     <label for="waterLevel">Water Level:</label>
     <select id="waterLevel" name="waterLevel">
@@ -40,23 +45,23 @@
     </select>
 
     <button type="submit">Apply Filters</button>
-    <button type="button" id="resetBtn">Reset Filters</button> <!-- Reset button -->
+    <button type="button" id="resetBtn">Reset Filters</button> 
 </form>
 
-<!-- Map -->
+
 <div id="map" style="height: 600px;"></div>
 
 <script>
 // Initialize the map
 var map = L.map('map').setView([36.8171, 9.1833], 7); // Default to Tunisia
 
-// Set up the tile layer
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Function to fetch and plot dam locations
-function fetchAndPlotData(filters) {
+
+function fetchAndPlotData(filters, asMarkers = false) {
     fetch('fetch_dams.php', {
         method: 'POST',
         headers: {
@@ -66,29 +71,41 @@ function fetchAndPlotData(filters) {
     })
     .then(response => response.json())
     .then(data => {
-        // Clear existing markers
+        
         map.eachLayer(function(layer) {
-            if (layer instanceof L.Marker) {
+            if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
                 map.removeLayer(layer);
             }
         });
 
-        // Plot the dam locations
+        
         data.forEach(function(dam) {
             var lat = parseFloat(dam.Latitude);
             var lng = parseFloat(dam.Longitude);
-            var marker = L.marker([lat, lng]).addTo(map);
-            marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+            if (asMarkers) {
+               
+                var marker = L.marker([lat, lng]).addTo(map);
+                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+            } else {
+                
+                var point = L.circleMarker([lat, lng], {
+                    radius: 5, 
+                    color: 'blue', 
+                    fillColor: 'blue',
+                    fillOpacity: 0.8
+                }).addTo(map);
+                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}`);
+            }
         });
     })
     .catch(error => console.error('Error fetching dam data:', error));
 }
 
-// Function to get filter values and exclude default ones
+
 function getFilters() {
     var filters = {};
 
-    // Check each filter and only add it if the value is not default
+    
     var waterquality = document.getElementById('waterquality').value;
     if (waterquality !== 'default') filters.waterquality = waterquality;
 
@@ -107,30 +124,66 @@ function getFilters() {
     return filters;
 }
 
-// Fetch data when filters are applied
+
 document.getElementById('filterForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     var filters = getFilters();
-    fetchAndPlotData(filters);
+    fetchAndPlotData(filters, true); 
 });
 
-// Reset filters when reset button is clicked
+
 document.getElementById('resetBtn').addEventListener('click', function() {
-    // Reset form fields
-    document.getElementById('filterForm').reset();
     
-    // Fetch all data without filters
-    fetchAndPlotData({});
+    document.getElementById('filterForm').reset();
+
+   
+    fetchAndPlotData({}, false);
 });
 
-// Load initial data (optional)
+
+fetchAndPlotData({}, false);
+
+fetch('./monastir.geojson') 
+    .then((response) => response.json())
+    .then((data) => {
+       
+        L.geoJSON(data, {
+            style: function () {
+                return {
+                    color: "transparent" ,
+                    fillOpacity: 0.1 
+                };
+            },
+            onEachFeature: function (feature, layer) {
+                layer.on('click', function () {
+                   
+                    map.eachLayer((layer) => {
+                        if (layer instanceof L.GeoJSON) {
+                            layer.setStyle({
+                                color: "transparent",
+                                fillOpacity: 0.1
+                            });
+                        }
+                    });
+
+                    
+                    layer.setStyle({
+                        color: "red", 
+                        fillOpacity: 0.5 
+                    });
+
+                    
+                    map.fitBounds(layer.getBounds());
+                });
+            }
+        }).addTo(map);
+    })
+    .catch((error) => console.error('Error loading GeoJSON data:', error));
+
+
 fetchAndPlotData({});
 </script>
 
-</body>
-</html>
-
-    </script>
 </body>
 </html>
