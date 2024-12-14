@@ -8,7 +8,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color:#3a3f58;
+    background-color:#20214B;
     min-height: 100vh;
     margin: 0; 
     
@@ -25,7 +25,7 @@ body {
     
 }
 .container h2{
-    color: #163d9f;
+    color: #20214B;
 }
 
 .container::before{
@@ -34,13 +34,14 @@ body {
     content: "";
     width: 100%;
     height: 100%;
-    background: linear-gradient(-45deg, #30b2cc,#163d9f);
+    background: linear-gradient(-45deg, #7885B9,#20214B);
     z-index: 6;
     left: -50%;
     transform:translateX(100%) ;
     transition: 1s ease-in-out;
 
 }
+
 .options {
     display: flex;
     justify-content: space-between;
@@ -60,7 +61,7 @@ body {
 
 .forgot-password a {
     text-decoration: none;
-    color: #163d9f;
+    color: #20214B;
 }
 
 .forgot-password a:hover {
@@ -82,8 +83,8 @@ body {
     height: 1px;
     width: 70px;
     margin: 0 10px; 
-    background: #163d9f;
-    border: 1px #163d9f solid;
+    background: #20214B;
+    border: 1px #20214B solid;
 }
 
 .divider span {
@@ -186,7 +187,7 @@ form p{
     width: 150px;
     height: 50px;
     border-color: white;
-    background-color:#163d9f;
+    background-color:#20214B;
     font-family: "Lora";
     color: white;
     font-weight: 600;
