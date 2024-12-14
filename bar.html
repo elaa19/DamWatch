@@ -34,8 +34,8 @@
         <option value="Gafsa">Gafsa</option>
     </select>
 
-    <label for="waterLevel">Water Level:</label>
-    <select id="waterLevel" name="waterLevel">
+    <label for="waterlevel">Water Level:</label>
+    <select id="waterlevel" name="waterlevel">
         <option value="default">Select</option>
         <option value="High">High</option>
         <option value="Medium">Medium</option>
@@ -93,7 +93,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
             if (asMarkers) {
                
                 var marker = L.marker([lat, lng]).addTo(map);
-                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterLevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
             } else {
                 
                 var point = L.circleMarker([lat, lng], {
@@ -102,7 +102,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
                     fillColor: 'blue',
                     fillOpacity: 0.8
                 }).addTo(map);
-                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterLevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
             }
         });
     })
@@ -119,8 +119,8 @@ function getFilters() {
     var city = document.getElementById('city').value;
     if (city !== 'default') filters.city = city;
 
-    var waterLevel = document.getElementById('waterLevel').value;
-    if (waterLevel !== 'default') filters.waterLevel = waterLevel;
+    var waterlevel = document.getElementById('waterlevel').value;
+    if (waterlevel !== 'default') filters.waterlevel = waterlevel;
 
     var capacity = document.getElementById('capacity').value;
     if (capacity) filters.capacity = capacity;
