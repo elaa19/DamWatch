@@ -5,10 +5,10 @@ ini_set('display_errors', 1);
 
 // Connection details
 $host = "localhost";
-$port = "5432"; 
-$dbname = "DamWatch";
-$user = "postgres"; 
-$password = "nadagouja"; 
+$port = "5432"; // Default PostgreSQL port
+$dbname = "DamWatch"; // Your database name
+$user = "postgres"; // Your PostgreSQL username
+$password = "nadagouja"; // Your password
 
 // Establish the connection
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['name']) && isset($_POS
                     window.location.href = 'users-form.html'; // Redirect to users-form.html after alert
                   </script>";
         } else {
-            
+            // SQL query to insert data (storing password as plain text)
             $query = "INSERT INTO Registration (name, email, password) VALUES ('$name', '$email', '$password')";
 
             // Execute the query
@@ -79,10 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['email']) && isset($_GET[
     if (pg_num_rows($result) == 1) {
         $row = pg_fetch_assoc($result);
 
-        // Check if the entered password matches the stored password
+       
         if ($password === $row['password']) {
-            // Redirect to map.html if login is successful
-            header("Location: map.html");
+            
+            header("Location: bar.html");
             exit();
         } else {
             // Error message if password does not match
