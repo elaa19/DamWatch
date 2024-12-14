@@ -20,7 +20,7 @@ body {
 
 .sidebar {
     width: 300px;
-    background-color: #000080;
+    background-color: #20214B ;
     color: rgb(12, 1, 1);
     display: flex;
     flex-direction: column;
@@ -191,7 +191,7 @@ body {
 }
 
 #filter-button:hover {
-    background: linear-gradient(135deg, #00BFFF, #1E90FF); /* Slightly deeper gradient */
+    background: linear-gradient(135deg, #00BFFF, #121031 ); /* Slightly deeper gradient */
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
@@ -203,7 +203,7 @@ body {
 /* Reset Filters Button */
 #resetBtn {
     background-color: #CBC3E3;
-    color: white;
+    color: #20214B ;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -212,7 +212,7 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   #resetBtn:hover {
-    background-color: #AA98A9;
+    background-color: #7885B9;
     transform: scale(1.05);
   }
 
