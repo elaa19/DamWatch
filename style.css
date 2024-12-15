@@ -11,13 +11,13 @@ body {
     background-color: #20214B;
     display: flex;
     height: 100vh;
-    margin: 0; 
+    margin: 0; /* Remove default margin */
 }
 
 #map {
-    height: 100vh; 
-    width: calc(100% - 300px); 
-    margin-left: 300px; 
+    height: 100vh; /* Full viewport height */
+    width: calc(100% - 300px); /* Adjust for sidebar width */
+    margin-left: 300px; /* Align with sidebar */
 }
 
 /* Sidebar */
@@ -29,10 +29,10 @@ body {
     flex-direction: column;
     padding: 20px;
     position: fixed;
-    top: 0; 
-    left: 0;
-    height: 100vh; 
-    z-index: 999; 
+    top: 0; /* Ensures it starts at the very top of the viewport */
+    left: 0; /* Ensures it stays on the left side */
+    height: 100vh; /* Ensures it takes the full height of the viewport */
+    z-index: 999; /* Makes sure it's on top of other content */
     transition: width 0.3s ease;
 }
 /* Sidebar on hover */
@@ -53,28 +53,28 @@ body {
 .image-text {
     display: flex;
     align-items: center;
-    gap: 15px; 
-    margin-bottom: 40px; 
+    gap: 15px; /* Space between logo and text */
+    margin-bottom: 40px; /* Space below logo */
 }
 
 /* Logo Styling */
 .image img {
-    width: 70px; 
-    height: 70px; 
-    object-fit: cover;
-    border-radius: 5px; 
+    width: 70px; /* Set the logo size */
+    height: 70px; /* Set the logo size */
+    object-fit: cover; /* Ensure the image fits well */
+    border-radius: 5px; /* Optional: rounded corners */
 }
 
 /* Title and Subtitle Styling */
 .header-text {
-    color: #fff; 
-    margin-top: 10px;
+    color: #fff; /* White text color */
+    margin-top: 10px; /* Move title down a little */
 }
 
 .name {
-    font-size: 1.3rem; 
+    font-size: 1.3rem; /* Make the title bigger */
     font-weight: bold;
-    color: black; 
+    color: black; /* Set Dam Management to black */
     display: block;
 }
 
@@ -83,8 +83,9 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* White line under the title */
 .header-text .name {
-    border-bottom: 2px solid white; 
+    border-bottom: 2px solid white; /* White line under the title */
     padding-bottom: 5px;
 }
 
@@ -99,7 +100,7 @@ form#filterForm {
     position: fixed;
     height: 100%;
     transition: width 0.3s ease;
-    margin-top: 20px; 
+    margin-top: 20px; /* Add some space between title and filters */
 }
 form#filterForm:hover {
     width: 320px;
@@ -123,7 +124,7 @@ form#filterForm input[type="number"] {
     color: rgb(10, 10, 10);
     outline: none;
     transition: 0.3s ease;
-    margin-bottom: 20px; 
+    margin-bottom: 20px; /* Add space between inputs */
 }
 
 form#filterForm select:hover, 
@@ -134,24 +135,24 @@ form#filterForm input[type="number"]:hover {
 /* Button Styling */
 /* Apply Filter Button */
 form#filterForm button#submit {
-    background: linear-gradient(135deg, #87CEEB, #808080); 
+    background: linear-gradient(135deg, #87CEEB, #808080); /* Blue sky gradient */
     color: black;
-    font-size: 1.2rem; 
+    font-size: 1.2rem; /* Larger font size */
     font-weight: bold;
     border: none;
-    padding: 15px 30px;
+    padding: 15px 30px; /* Larger padding */
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: block; 
-    margin: 20px auto; 
-    text-align: center; 
+    display: block; /* Ensures proper centering */
+    margin: 20px auto; /* Centers horizontally */
+    text-align: center; /* Centers the text inside the button */
 }
 
 
 form#filterForm button#filter-button:hover {
-    background: linear-gradient(135deg, #00BFFF, #121031 );
+    background: linear-gradient(135deg, #00BFFF, #121031 ); /* Slightly deeper gradient */
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
