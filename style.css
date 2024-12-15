@@ -20,82 +20,94 @@ body {
 
 .sidebar {
     width: 300px;
-    background-color: #20214B ;
+    margin-bottom: 30px;
+    background-color: #20214B;
     color: rgb(12, 1, 1);
     display: flex;
     flex-direction: column;
     padding: 20px;
     position: fixed;
     height: 100%;
-    transition: 0.3s ease;
+    transition: width 0.3s ease;
 }
 .sidebar:hover {
     width: 320px;
 }
 .sidebar header {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
 }
+
+/* Flex container for logo and text */
 .image-text {
     display: flex;
     align-items: center;
-}
-.image img {
-    width: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-.header-text .name {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-.header-text .profession {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-.search-box {
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-}
-.search-box input {
-    border: none;
-    background: transparent;
-    color: rgb(5, 0, 0);
-    outline: none;
-    width: 100%;
-    font-size: 1rem;
-}
-.search-box input::placeholder {
-    color: rgba(4, 4, 4, 0.7);
-}
-.search-box .icon {
-    margin-right: 10px;
-    font-size: 1.2rem;
+    gap: 15px; /* Space between logo and text */
+    margin-bottom: 10px; /* Space below logo */
 }
 
-/* Filter Section */
-.filter-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    color: #0d0d0d;
+/* Logo Styling */
+.image img {
+    width: 50px; /* Set the logo size */
+    height: 50px; /* Set the logo size */
+    object-fit: cover; /* Ensure the image fits well */
+    border-radius: 5px; /* Optional: rounded corners */
 }
-.filter {
-    margin-bottom: 20px;
+
+/* Title and Subtitle Styling */
+.header-text {
+    color: #fff; /* White text color */
+    margin-top: 10px; /* Move title down a little */
 }
-.filter label {
+
+.name {
+    font-size: 1.3rem; /* Make the title bigger */
+    font-weight: bold;
+    color: black; /* Set Dam Management to black */
+    display: block;
+}
+
+.profession {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* White line under the title */
+.header-text .name {
+    border-bottom: 2px solid white; /* White line under the title */
+    padding-bottom: 5px;
+}
+
+/* Form Container as Sidebar */
+form#filterForm {
+    width: 300px;
+    background-color: #20214B;
+    color: rgb(12, 1, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    transition: width 0.3s ease;
+    margin-top: 20px; /* Add some space between title and filters */
+}
+form#filterForm:hover {
+    width: 320px;
+}
+
+form#filterForm label {
     font-size: 0.9rem;
     margin-bottom: 5px;
     display: block;
     color: rgba(255, 255, 255, 0.9);
 }
-.filter select, .filter input {
+
+form#filterForm select, 
+form#filterForm input[type="number"] {
     width: 100%;
     padding: 8px 10px;
     font-size: 0.9rem;
@@ -105,76 +117,17 @@ body {
     color: rgb(10, 10, 10);
     outline: none;
     transition: 0.3s ease;
+    margin-bottom: 20px; /* Add space between inputs */
 }
-.filter select {
-    width: 100%;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: rgb(14, 14, 14);
-    padding: 10px;
-    outline: none;
-    height: auto; /* Allow full height based on options */
-    overflow-y: auto; /* Scroll if needed for smaller screens */
-}
-.filter select option {
-    color: black; /* Ensure options are readable */
-    background-color: white; /* Stand out from the list */
-    padding: 5px;
-}
-.filter select:hover {
+
+form#filterForm select:hover, 
+form#filterForm input[type="number"]:hover {
     background: rgba(255, 255, 255, 0.3);
 }
-.custom-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #f0f0f0;
-    border: 1px solid #d3d3d3;
-    font-size: 16px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    cursor: pointer;
-}
 
-.custom-select:focus {
-    background-color: #e8f0fe;
-    border-color: #00BFFF;
-    outline: none;
-}
-
-.custom-select option {
-    padding: 10px;
-}
-
-.filter input[type="range"] {
-    -webkit-appearance: none; /* Remove default appearance */
-    width: 100%; /* Full width */
-    margin: 10px 0; /* Vertical spacing */
-    background: transparent; /* Transparent background */
-    cursor: pointer; /* Pointer cursor */
-}
-
-.filter input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 8px; /* Track height */
-    background: #79580c; /* Light blue track */
-    border-radius: 5px; /* Rounded edges */
-    border: none;
-}
-
-
-.filter #capacity-value {
-    display: inline-block;
-    margin-left: 10px;
-    font-weight: bold;
-    color: #fff;
-}
-
-
-
+/* Button Styling */
 /* Apply Filter Button */
-#filter-button {
+form#filterForm button#submit {
     background: linear-gradient(135deg, #87CEEB, #808080); /* Blue sky gradient */
     color: black;
     font-size: 1.2rem; /* Larger font size */
@@ -190,18 +143,20 @@ body {
     text-align: center; /* Centers the text inside the button */
 }
 
-#filter-button:hover {
+
+form#filterForm button#filter-button:hover {
     background: linear-gradient(135deg, #00BFFF, #121031 ); /* Slightly deeper gradient */
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
-#filter-button:active {
+form#filterForm button#filter-button:active {
     transform: translateY(0);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 /* Reset Filters Button */
-#resetBtn {
+form#filterForm button#resetBtn {
     background-color: #CBC3E3;
     color: #20214B ;
     border: none;
@@ -210,27 +165,23 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  #resetBtn:hover {
+}
+
+form#filterForm button#resetBtn:hover {
     background-color: #7885B9;
     transform: scale(1.05);
   }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .sidebar {
+    form#filterForm {
         width: 250px;
     }
-    .sidebar:hover {
+    form#filterForm:hover {
         width: 270px;
     }
-    .header-text .name {
-        font-size: 1rem;
-    }
-    .header-text .profession {
-        font-size: 0.8rem;
-    }
-    #filter-button {
-        font-size: 0.9rem;
+    #map {
+        width: 100%;
+        margin-left: 0;
     }
 }
