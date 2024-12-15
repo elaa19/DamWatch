@@ -1,23 +1,30 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dam Locations</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="style1.css"> 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    
 </head>
 <body>
 
 <form id="filterForm">
-    <label for="waterquality">Water Quality:</label>
-    <select id="waterquality" name="waterquality">
-        <option value="default">Select</option>
-        <option value="Good">Good</option>
-        <option value="Moderate">Moderate</option>
-        <option value="Poor">Poor</option>
-    </select>
+    <header>
+        <div class="image-text">
+            <div class="image">
+                <img src="logo.png" alt="Logo"> 
+            </div>
+            <div class="header-text">
+                <span class="name">Dam Management</span>
+                <span class="profession">Monitoring & Analysis</span>
+            </div>
+        </div>
+    </header>
+    
+
 
     <label for="city">City:</label>
     <select id="city" name="city">
@@ -33,6 +40,13 @@
         <option value="Kasserine">Kasserine</option>
         <option value="Kairouan">Kairouan</option>
         <option value="Gafsa">Gafsa</option>
+    </select>
+    <label for="waterquality">Water Quality:</label>
+    <select id="waterquality" name="waterquality">
+        <option value="default">Select</option>
+        <option value="Good">Good</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Poor">Poor</option>
     </select>
 
     <label for="waterlevel">Water Level:</label>
@@ -53,12 +67,13 @@
         <option value="Under Maintenance">Under Maintenance</option>
     </select>
 
-    <button type="submit">Apply Filters</button>
+    <button type="submit" id="submit">Apply Filters</button>
     <button type="button" id="resetBtn">Reset Filters</button> 
 </form>
 
+<div id="map"></div>
 
-<div id="map" style="height: 600px;"></div>
+
 
 <script>
 // Initialize the map
@@ -94,7 +109,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
             if (asMarkers) {
                
                 var marker = L.marker([lat, lng]).addTo(map);
-                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+                marker.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>operationalstatus : ${dam.operationalStatus}`);
             } else {
                 
                 var point = L.circleMarker([lat, lng], {
@@ -103,7 +118,7 @@ function fetchAndPlotData(filters, asMarkers = false) {
                     fillColor: 'blue',
                     fillOpacity: 0.8
                 }).addTo(map);
-                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>Operational Status: ${dam.operationalStatus}`);
+                point.bindPopup(`<b>${dam.Dam}</b><br>City: ${dam.city}<br>Water Quality: ${dam.waterquality}<br>Water Level: ${dam.waterlevel}<br>Capacity: ${dam.capacity}<br>operationalstatus: ${dam.operationalStatus}`);
             }
         });
     })
@@ -126,8 +141,8 @@ function getFilters() {
     var capacity = document.getElementById('capacity').value;
     if (capacity) filters.capacity = capacity;
 
-    var operationalStatus = document.getElementById('operationalStatus').value;
-    if (operationalStatus !== 'default') filters.operationalStatus = operationalStatus;
+    var operationalstatus = document.getElementById('operationalstatus').value;
+    if (operationalstatus!== 'default') filters.operationalstatus = operationalstatus ;
 
     return filters;
 }
