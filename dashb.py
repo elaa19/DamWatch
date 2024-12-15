@@ -62,35 +62,34 @@ def custom_css():
             }
 
             .stSidebar .css-17eq0hr, .stSidebar label {
-                color: black !important;
-                font-size: 18px !important;
-                font-weight: bold !important;
+                color: black ;
+                font-size: 18px ;
+                font-weight: bold ;
             }
 
             /* Slider track and thumb */
             .stSlider .css-1wy6l3l {
-                background-color: #007bff !important;  /* Slider track */
+                background-color: #007bff ;  
             }
 
             .stSlider .css-qrbaxs {
-                background-color: #007bff !important;  /* Slider thumb */
+                background-color: #007bff t;  
             }
 
             .stSlider .css-1h9h7wh, .stSlider .css-1e5bymp {
-                color: #000000 !important;  /* Year markers in black */
-                font-size: 18px !important;
-                font-weight: bold !important;
+                color: #000000 ;  
+                font-size: 18px ;
+                font-weight: bold ;
             }
 
-            /* Dynamic year numbers when moving the slider */
             .stSlider .css-10trblm {
-                color: #000000 !important;  /* Year numbers in black */
+                color: #000000 ;  
             }
 
             /* Filter buttons and tags */
             .stMultiSelect span, .stSlider span {
-                background-color: #000080 !important;
-                color: white !important;
+                background-color: #000080 ;
+                color: white ;
             }
 
             
@@ -111,11 +110,11 @@ st.sidebar.title("Filters")
 st.sidebar.markdown("""
     <style>
         .css-1d391kg {
-            background-color: #001f3f !important;
-            color: white !important;
+            background-color: #001f3f ;
+            color: white ;
         }
         .css-1d391kg h1, .css-1d391kg h2, .css-1d391kg h3, .css-1d391kg h4 {
-            color: white !important;
+            color: white ;
         }
     </style>
 """, unsafe_allow_html=True)
