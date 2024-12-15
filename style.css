@@ -8,31 +8,38 @@
 }
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #cfe3f6;
+    background-color: #20214B;
     display: flex;
     height: 100vh;
+    margin: 0; /* Remove default margin */
 }
+
 #map {
     height: 100vh; /* Full viewport height */
     width: calc(100% - 300px); /* Adjust for sidebar width */
     margin-left: 300px; /* Align with sidebar */
 }
 
+/* Sidebar */
 .sidebar {
     width: 300px;
-    margin-bottom: 30px;
     background-color: #20214B;
     color: rgb(12, 1, 1);
     display: flex;
     flex-direction: column;
     padding: 20px;
     position: fixed;
-    height: 100%;
+    top: 0; /* Ensures it starts at the very top of the viewport */
+    left: 0; /* Ensures it stays on the left side */
+    height: 100vh; /* Ensures it takes the full height of the viewport */
+    z-index: 999; /* Makes sure it's on top of other content */
     transition: width 0.3s ease;
 }
+/* Sidebar on hover */
 .sidebar:hover {
     width: 320px;
 }
+
 .sidebar header {
     display: flex;
     flex-direction: column;
@@ -47,13 +54,13 @@ body {
     display: flex;
     align-items: center;
     gap: 15px; /* Space between logo and text */
-    margin-bottom: 10px; /* Space below logo */
+    margin-bottom: 40px; /* Space below logo */
 }
 
 /* Logo Styling */
 .image img {
-    width: 50px; /* Set the logo size */
-    height: 50px; /* Set the logo size */
+    width: 70px; /* Set the logo size */
+    height: 70px; /* Set the logo size */
     object-fit: cover; /* Ensure the image fits well */
     border-radius: 5px; /* Optional: rounded corners */
 }
